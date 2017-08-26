@@ -13,20 +13,36 @@ console.log('Yargs', argv);
 
 if (command === 'add') {
   var note = notes.addNote(argv.title, argv.body);
+
   if (note) {
+
     console.log('Note created');
-    console.log('--');
-    console.log(`Title: ${note.title}`);
-    console.log(`Body: ${note.body}`);
+
+    notes.printNote(note);
+
   } else {
+
     console.log('Note title taken');
   }
 } else if (command === 'list') {
-  notes.getAll();
+  console.log(notes.getAll());
+
 } else if (command === 'read') {
-  notes.getNote(argv.title);
+
+  var n = notes.getNote(argv.title);
+  if (n) {
+    console.log(n);
+
+  } else {
+    console.log("Note not found");
+  }
+
 } else if (command === 'remove') {
-  notes.removeNote(argv.title);
+
+  var removed = notes.removeNote(argv.title);
+  var msg = removed? "Note was removed" : "Specified note was not found";
+  console.log(msg);
+
 } else {
   console.log('Command not recognized');
 }
