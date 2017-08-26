@@ -1,4 +1,5 @@
-console.log('Starting app.js');
+// Notes manipulation and display features, reusability supported
+// A. Z. Quwatli
 
 const fs = require('fs');
 const _ = require('lodash');
@@ -6,10 +7,34 @@ const yargs = require('yargs');
 
 const notes = require('./notes.js');
 
-const argv = yargs.argv;
+const titleOptions = {
+  describe: 'Title of note',
+  demand: true,
+  alias: 't'
+};
+
+const bodyOptions = {
+  describe: 'Content of note',
+  demand: true,
+  alias: 'b'
+};
+
+const argv = yargs.command('add', 'Add a new note', {
+  title: titleOptions,
+  body: bodyOptions
+})
+.command('list', 'Listing avaialbe notes')
+.command('read', 'Return the specified note by title', {
+  title: titleOptions
+})
+.command('remove', 'Remove specified note by title', {
+  title: titleOptions
+})
+.help().argv;
 var command = argv._[0];
-console.log('Command: ', command);
-console.log('Yargs', argv);
+
+// console.log('Command: ', command);
+// console.log('Yargs', argv);
 
 if (command === 'add') {
   var note = notes.addNote(argv.title, argv.body);
